@@ -1,0 +1,6 @@
+# sensible data 
+**/.env
+**/acme.json
+**/etc-pihole/
+**/dnsmasq.d/
+**/*.log
