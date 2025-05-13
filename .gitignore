@@ -4,3 +4,5 @@
 **/etc-pihole/
 **/dnsmasq.d/
 **/*.log
+**/*.png
+/homepage

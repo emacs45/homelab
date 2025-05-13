@@ -3,32 +3,45 @@
 Welcome to my Homelab!
 This repository contains a minimal, secure, and extensible self-hosted setup using:
 
-- ✅ **Pi-hole** – DNS server and ad/tracker blocker
-- 🔒 **Traefik** – Reverse proxy with automatic HTTPS via Let's Encrypt (DNS-01 challenge)
-- ⚙️ Fully containerized using **Docker Compose**
+- ✅ Pi-hole – DNS server and ad/tracker blocker
+- 🔒 Traefik – Reverse proxy with automatic HTTPS via Let's Encrypt (DNS-01 challenge)
+- 📊 Grafana + Prometheus – Monitoring stack
+- 👤 Authentik – Self-hosted Identity Provider
+- ⚙️ Fully containerized using Docker Compose
 
 ------------------------------------------------------------
 
 ## 📦 Services Included
 
-Service   | Description                   | Access
-----------|-------------------------------|----------------------------------------------
-Pi-hole   | DNS & network-wide ad blocker | https://pihole.yourdomain.tld
-Traefik   | Reverse proxy + TLS manager   | (optional: https://traefik.yourdomain.tld)
+Service     | Description                    | Access
+------------|--------------------------------|----------------------------------------------
+Pi-hole     | DNS & network-wide ad blocker  | https://pihole.yourdomain.tld
+Traefik     | Reverse proxy + TLS manager    | (optional: https://traefik.yourdomain.tld)
+Grafana     | Metrics & dashboards           | http://yourhost:3000
+Prometheus  | Metrics collection             | http://yourhost:9090
+Authentik   | SSO & auth provider            | http://yourhost:9000 or https://...:9443
 
 ------------------------------------------------------------
 
 ## 📁 Project Structure
+
 ```
 homelab/
 ├── traefik/
 │   ├── traefik.yml              -> Traefik configuration
-│   ├── docker-compose.yml       -> Traefik stack definition
+│   └── docker-compose.yml       -> Traefik stack definition
 │   └── acme.json                -> Certificate storage (ignored)
 ├── pihole/
 │   ├── docker-compose.yml       -> Pi-hole with Traefik labels
 │   ├── dnsmasq.d/               -> Custom DNS config files (optional)
 │   └── etc-pihole/              -> Pi-hole persistent data
+├── graf_prom/
+│   ├── docker-compose.yml       -> Prometheus & Grafana stack
+│   ├── prometheus/              -> Prometheus config
+│   └── grafana/                 -> Grafana provisioning files
+├── authentik/
+│   ├── docker-compose.yml       -> Authentik setup incl. PostgreSQL/Redis
+│   └── media/, certs/, ...      -> Persistent volumes
 └── .gitignore
 ```
 ------------------------------------------------------------
@@ -37,12 +50,7 @@ homelab/
 
 - DNS and TLS are managed via Cloudflare DNS API and Let's Encrypt (DNS-01 challenge)
 - Set your public subdomains (e.g. pihole.yourdomain.tld) to point to your homelab's IP
-- Add your Cloudflare token and email to traefik/.env:
-
-  ```
-  CF_API_EMAIL=you@example.com
-  CLOUDFLARE_DNS_API_TOKEN=your_token
-  ```
+- Add your Cloudflare token and email to traefik/.env
 
 ------------------------------------------------------------
 
@@ -50,6 +58,7 @@ homelab/
 
 - All services are accessible via HTTPS only (handled by Traefik)
 - Pi-hole is protected with a web UI password via environment variable
+- Authentik can be used to protect dashboards (Grafana, Homepage, etc.)
 - The Traefik dashboard is disabled by default — enable with care
 
 ------------------------------------------------------------
@@ -62,22 +71,11 @@ Thanks to [Hagezi](https://github.com/hagezi)
 
 ------------------------------------------------------------
 
-## 🚀 Usage
-```
-# Start Traefik
-
-cd traefik && docker compose up -d
-
-# Start Pi-hole
-cd ../pihole && docker compose up -d
-```
-
-------------------------------------------------------------
-
 ## 📌 Notes
 
-- Don't forget to create acme.json with ```chmod 600``` before starting Traefik
-- Make sure both services are on the same Docker network (traefik)
+- Don't forget to create acme.json with `chmod 600` before starting Traefik
+- Make sure all services are on the shared Docker network `traefik`
+- API keys (Pi-hole, Proxmox, etc.) are injected via environment vars
 
 ------------------------------------------------------------
 
@@ -92,9 +90,14 @@ cd ../pihole && docker compose up -d
 
 ## ✅ Todo (Optional Ideas)
 
-- Add monitoring with Grafana/Prometheus
-- Enable Traefik dashboard with auth middleware
-- ~~Add redirect from / to /admin for Pi-hole~~ (done)
+- ~~Grafana/Prometheus Monitoring~~ (done)
+- ~~Authentik Integration~~ (done)
+- ~~Pi-hole redirect to /admin~~ (done)
+- Add homepage dashboard (e.g. gethomepage.dev)
+- Setup backup for persistent volumes
+- Install OpenLDAP and integrate with Authentik
+- Configure Grafana and Prometheus dashboards
+- Consider migrating to k3s for orchestration in the future
 
 ------------------------------------------------------------
 
