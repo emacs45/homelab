@@ -1,0 +1,15 @@
+8.8.8.8:53
+1.1.1.1:53
+example.com:443
+google.com:443
+github.com:443
+python.org:443
+localhost:22
+localhost:8080
+localhost:3000
+localhost:9090
+127.0.0.1:3306
+192.168.0.1:80
+192.168.0.1:443
+192.168.0.10:22
+192.168.0.10:8080
