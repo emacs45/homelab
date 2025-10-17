@@ -6,3 +6,11 @@
 **/*.log
 **/*.png
 /homepage
+
+# k8s secrets
+k8s/cert-manager/cloudflare-secret.yaml
+*.key
+*.crt
+*.pem
+acme.json
+.env*
