@@ -9,10 +9,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - whoami.int.emxlab.dev
-    secretName: whoami-tls  # cert-manager legt/füllt dieses Secret an
+    - yourhosthere
+    secretName: whoami-tls
   rules:
-  - host: whoami.int.emxlab.dev
+  - host: yourhosthere
     http:
       paths:
       - path: /

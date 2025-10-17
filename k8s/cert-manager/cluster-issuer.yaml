@@ -4,14 +4,14 @@ metadata:
   name: letsencrypt-dns
 spec:
   acme:
-    email: emec.acmi@gmail.com                # <- Deine Mailadresse für LE
+    email: youremail@here.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-dns-account-key
     solvers:
     - selector:
         dnsZones:
-        - "int.emxlab.dev"
+        - "your.domain.here"
       dns01:
         cloudflare:
           apiTokenSecretRef:
