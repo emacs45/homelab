@@ -1,0 +1,30 @@
+resources:
+  - whoami-deployment.yaml
+  - whoami-service.yaml
+  - whoami-ingress.yaml
+  - whoami-pdb.yaml
+
+configMapGenerator:
+  - name: whoami-config
+    envs:
+      - .env
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: whoami-config
+      fieldPath: data.HOSTNAME
+    targets:
+      - select:
+          kind: Ingress
+          name: whoami
+        fieldPaths:
+          - spec.rules.0.host
+          - spec.tls.0.hosts.0
+
+patches:
+  - path: patch-deploy-rolling.yaml
+    target:
+      kind: Deployment
+      name: whoami
+

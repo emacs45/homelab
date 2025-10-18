@@ -9,10 +9,10 @@ spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - yourhosthere
+    - PLACEHOLDER_HOST
     secretName: whoami-tls
   rules:
-  - host: yourhosthere
+  - host: PLACEHOLDER_HOST
     http:
       paths:
       - path: /

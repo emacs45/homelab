@@ -1,0 +1,30 @@
+resources:
+  - cluster-issuer.yaml
+
+configMapGenerator:
+  - name: cluster-issuer-vars
+    envs:
+      - .env
+
+replacements:
+  - source:
+      kind: ConfigMap
+      name: cluster-issuer-vars
+      fieldPath: data.EMAIL
+    targets:
+      - select:
+          kind: ClusterIssuer
+          name: letsencrypt-dns
+        fieldPaths:
+          - spec.acme.email
+
+  - source:
+      kind: ConfigMap
+      name: cluster-issuer-vars
+      fieldPath: data.DNS_ZONE
+    targets:
+      - select:
+          kind: ClusterIssuer
+          name: letsencrypt-dns
+        fieldPaths:
+          - spec.acme.solvers.0.selector.dnsZones.0

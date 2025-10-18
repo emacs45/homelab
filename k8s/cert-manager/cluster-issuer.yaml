@@ -4,14 +4,14 @@ metadata:
   name: letsencrypt-dns
 spec:
   acme:
-    email: youremail@here.com
+    email: placeholder@example.com 
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-dns-account-key
     solvers:
     - selector:
         dnsZones:
-        - "your.domain.here"
+        - "PLACEHOLDER_DNS_ZONE"
       dns01:
         cloudflare:
           apiTokenSecretRef:
