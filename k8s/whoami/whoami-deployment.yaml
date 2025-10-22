@@ -34,7 +34,7 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
       - name: whoami
-        image: traefik/whoami:latest
+        image: traefik/whoami:v1.8.6
         ports:
         - containerPort: 80
         readinessProbe:
