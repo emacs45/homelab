@@ -2,17 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: whoami
+  namespace: default
   annotations:
-    kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: letsencrypt-dns
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   ingressClassName: traefik
   tls:
   - hosts:
-    - PLACEHOLDER_HOST
+    - whoami.int.emxlab.dev     
     secretName: whoami-tls
   rules:
-  - host: PLACEHOLDER_HOST
+  - host: whoami.int.emxlab.dev 
     http:
       paths:
       - path: /
@@ -22,4 +22,3 @@ spec:
             name: whoami
             port:
               number: 80
-
