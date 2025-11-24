@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-dns01"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - jenkins.int.emxlab.dev
+      secretName: jenkins-tls
+  rules:
+    - host: jenkins.int.emxlab.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jenkins
+                port:
+                  number: 8080
